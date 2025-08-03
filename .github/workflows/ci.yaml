@@ -12,7 +12,6 @@ jobs:
           token: ${{ secrets.TOKEN }}
       - uses: DeterminateSystems/nix-installer-action@v19
       - uses: DeterminateSystems/magic-nix-cache-action@v13
-      - uses: DeterminateSystems/flake-checker-action@v12
       - run: |
           PORT=$(((RANDOM % 10000) + 20000))
           echo "port=$PORT" >> "$GITHUB_OUTPUT"
