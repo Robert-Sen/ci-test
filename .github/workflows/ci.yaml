@@ -4,7 +4,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu:24.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -12,7 +12,7 @@ jobs:
           token: ${{secrets.TOKEN}}
       - uses: DeterminateSystems/nix-installer-action@main     
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      # - uses: DeterminateSystems/flake-checker-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
       - run: |
           nix develop -c bash
           docker compose up
