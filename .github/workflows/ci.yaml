@@ -9,20 +9,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: "recursive"
-          token: ${{secrets.TOKEN}}
+          token: ${{ secrets.TOKEN }}
       - uses: DeterminateSystems/nix-installer-action@v19
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: DeterminateSystems/flake-checker-action@v12
       - run: |
           PORT=$(((RANDOM % 10000) + 20000))
-          echo "port=$PORT" >> $GITHUB_OUTPUT
-          nix develop --command bash -c "ci-prepare.sh ${PORT}"
+          echo "port=$PORT" >> "$GITHUB_OUTPUT"
+          nix develop --command bash -c "ci-prepare.sh $PORT"
           nix develop --command bash -c prisma migrate dev
 
   cleanup:
     needs: [build]
+    if: ${{ always() }}
     runs-on: self-hosted
     steps:
-      - run: |
-          PORT=${{needs.build.outputs.port}}
+      - env:
+          PORT: ${{ needs.build.outputs.port }}
+        run: |
+          PORT=
           nix develop --command bash -c "ci-post.sh ${PORT}"
