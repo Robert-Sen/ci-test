@@ -27,5 +27,4 @@ jobs:
       - env:
           PORT: ${{ needs.build.outputs.port }}
         run: |
-          PORT=
           nix develop --command bash -c "ci-post.sh ${PORT}"
