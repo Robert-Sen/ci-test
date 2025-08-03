@@ -24,5 +24,5 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: |
-          PORT=${{needs.build-and-check.outputs.port}}
+          PORT=${{needs.build.outputs.port}}
           nix develop --command bash -c "ci-post.sh ${PORT}"
