@@ -5,6 +5,8 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    outputs:
+      port: $
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,6 +26,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - env:
-          PORT: ${{ needs.build.outputs.port }}
+          PORT: $
         run: |
+          echo $PORT
           nix develop --command bash -c "ci-post.sh ${PORT}"
