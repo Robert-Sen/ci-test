@@ -20,7 +20,7 @@ jobs:
           nix develop --command bash -c prisma migrate dev
 
   cleanup:
-    needs: build
+    needs: [build]
     runs-on: self-hosted
     steps:
       - run: |
