@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu:24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+          token: ${{secrets.TOKEN}}
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
+      - run: |
+          nix develop -c bash
+          docker compose up
+          prisma migrate dev
