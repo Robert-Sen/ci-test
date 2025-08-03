@@ -14,5 +14,5 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: DeterminateSystems/flake-checker-action@v12
       - run: |
-          nix develop -c bash docker compose up -d
-          nix develop -c bash prisma migrate dev
+          nix develop --command bash -c docker compose up -d
+          nix develop -command bash -c prisma migrate dev
