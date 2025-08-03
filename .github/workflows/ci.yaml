@@ -15,5 +15,5 @@ jobs:
       - uses: DeterminateSystems/flake-checker-action@v12
       - run: |
           nix develop -c bash
-          docker compose up
+          docker compose up -d
           prisma migrate dev
