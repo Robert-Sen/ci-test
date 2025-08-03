@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: self-hosted
     outputs:
-      port: $
+      port: ${{ steps.ci.outputs.port }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -14,7 +14,8 @@ jobs:
           token: ${{ secrets.TOKEN }}
       - uses: DeterminateSystems/nix-installer-action@v19
       - uses: DeterminateSystems/magic-nix-cache-action@v13
-      - run: |
+      - id: ci
+        run: |
           PORT=$(((RANDOM % 10000) + 20000))
           echo "port=$PORT" >> "$GITHUB_OUTPUT"
           nix develop --command bash -c "ci-prepare.sh $PORT"
@@ -26,7 +27,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - env:
-          PORT: $
+          PORT: ${{ needs.build.outputs.port }}
         run: |
           echo $PORT
           nix develop --command bash -c "ci-post.sh ${PORT}"
